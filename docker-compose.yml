@@ -1,0 +1,12 @@
+services:
+  backend:
+    build: ./backend/
+  frontend:
+    build: ./web/
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: notifications
+      POSTGRES_PASSWORD: development
+    volumes:
+      - ./docker/db-data/:/var/lib/postresql/data/
