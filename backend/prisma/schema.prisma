@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int @id @default(autoincrement())
+  email          String @unique
+  password       String
+  name           String
+  phoneNumber    String
+  subscriptions  UserSubscription[]
+  channels       NotificationType[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Notification {
+  id          Int @id @default(autoincrement())
+  category    NotificationCategory @relation(fields: [categoryId], references: [id])
+  categoryId  Int @unique
+  channel     NotificationType
+  logs        NotificationLog[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NotificationCategory {
+  id              Int @id @default(autoincrement())
+  category        String @unique
+  notification    Notification?
+  users           UserSubscription[]
+}
+
+enum NotificationType {
+  SMS
+  EMAIL
+  PUSH
+}
+
+model UserSubscription {
+  user        User @relation(fields: [userId], references: [id])
+  userId      Int
+  category    NotificationCategory @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@id([userId, categoryId])
+}
+
+model NotificationLog {
+  id              Int @id @default(autoincrement())
+  notification    Notification @relation(fields: [notificationId], references: [id])
+  notificationId  Int
+  sentAt          DateTime @default(now())
+}
