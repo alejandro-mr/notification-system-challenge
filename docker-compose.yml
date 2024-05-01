@@ -17,6 +17,8 @@ services:
       - 8000:8000
     volumes:
       - ./web/:/usr/src/app/
+    environment:
+      VITE_NOTIFICATIONS_BACKEND_URL: http://localhost:8001/
   db:
     image: postgres:alpine
     environment:
