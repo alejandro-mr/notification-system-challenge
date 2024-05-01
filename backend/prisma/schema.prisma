@@ -21,25 +21,26 @@ model User {
   phoneNumber    String
   subscriptions  UserSubscription[]
   channels       NotificationType[]
+  notifications  NotificationLog[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
 model Notification {
   id          Int @id @default(autoincrement())
+  message     String
   category    NotificationCategory @relation(fields: [categoryId], references: [id])
-  categoryId  Int @unique
-  channel     NotificationType
+  categoryId  Int
   logs        NotificationLog[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
 model NotificationCategory {
-  id              Int @id @default(autoincrement())
-  category        String @unique
-  notification    Notification?
-  users           UserSubscription[]
+  id               Int @id @default(autoincrement())
+  category         String @unique
+  notifications    Notification[]
+  users            UserSubscription[]
 }
 
 enum NotificationType {
@@ -61,7 +62,10 @@ model UserSubscription {
 
 model NotificationLog {
   id              Int @id @default(autoincrement())
+  user            User @relation(fields: [userId], references: [id])
+  userId          Int
   notification    Notification @relation(fields: [notificationId], references: [id])
   notificationId  Int
+  channel         NotificationType
   sentAt          DateTime @default(now())
 }
