@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 import {
   Prisma,
   Notification,
@@ -9,14 +11,40 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class NotificationsService {
-  constructor(private prisma: PrismaService) {}
+  private queues: Map<String, Queue>;
+
+  constructor(
+    private prisma: PrismaService,
+    @InjectQueue('Sports') private sportsQueue: Queue,
+    @InjectQueue('Finance') private financeQueue: Queue,
+    @InjectQueue('Movies') private moviesQueue: Queue,
+  ) {
+    this.queues = new Map([
+      ['Sports', this.sportsQueue],
+      ['Finance', this.financeQueue],
+      ['Movies', this.moviesQueue],
+    ]);
+  }
 
   async createNotification(
     data: Prisma.NotificationCreateInput,
   ): Promise<Notification> {
-    return this.prisma.notification.create({
+    const notification = await this.prisma.notification.create({
       data,
+      include: {
+        category: true,
+      },
     });
+
+    if (notification.id > 0) {
+      const queue = this.queues.get(notification.category.category);
+      if (queue) {
+        // Notification is sent to the queue in a fire and forget manner.
+        queue.add(notification);
+      }
+    }
+
+    return notification;
   }
 
   async getNotifications(params: {
