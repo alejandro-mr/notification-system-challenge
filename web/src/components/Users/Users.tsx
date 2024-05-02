@@ -23,9 +23,47 @@ function Users() {
   return (
     <div>
       <h3>Available Users</h3>
-      {users.map((user) => (
-        <div key={user.id}>{user.email} : {user.password}</div>
-      ))}
+      <div className="overflow-x-auto">
+        <table className="table table-sm table-pin-rows table-pin-cols border-spacing-2">
+          <thead>
+            <tr className="bg-base-200">
+              <th>Email</th>
+              <th>Password</th>
+              <th>Subscriptions</th>
+              <th>Channels</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(({ id, email, password, subscriptions, channels }) => (
+              <tr className="bg-base-200 hover" key={id}>
+                <td>{email}</td>
+                <td>{password}</td>
+                <td>
+                  <div className="flex gap-2">
+                    {subscriptions.map((subscription) => (
+                      <span
+                        className="badge badge-neutral"
+                        key={subscription.id}
+                      >
+                        {subscription.category.category}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+                <td>
+                  <div className="flex gap-2">
+                    {channels.map((channel) => (
+                      <span className="badge" key={`${id}_${channel}`}>
+                        {channel}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

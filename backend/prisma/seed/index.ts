@@ -60,19 +60,22 @@ async function main() {
             categoryId: financeCategory.id,
           },
         });
-        await prisma.userSubscription.upsert({
-          where: {
-            userId_categoryId: {
+
+        if (name !== 'jane') {
+          await prisma.userSubscription.upsert({
+            where: {
+              userId_categoryId: {
+                userId: user.id,
+                categoryId: moviesCategory.id,
+              },
+            },
+            update: {},
+            create: {
               userId: user.id,
               categoryId: moviesCategory.id,
             },
-          },
-          update: {},
-          create: {
-            userId: user.id,
-            categoryId: moviesCategory.id,
-          },
-        });
+          });
+        }
       }
     }
   }

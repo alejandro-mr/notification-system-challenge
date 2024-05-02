@@ -1,13 +1,8 @@
 import './App.css';
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  redirect,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
-import Login from './components/Login/Login';
 import Notification from './components/Notification/Notification';
 import Notifications from './components/Notifications/Notifications';
 import Users from './components/Users/Users';
@@ -19,14 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Login />,
-        loader: async () => {
-          const jwtToken = localStorage.getItem('jwtToken');
-          if (jwtToken !== null) {
-            return redirect('/notifications');
-          }
-          return <login />;
-        },
+        element: <Notification />,
       },
       {
         path: '/notification',

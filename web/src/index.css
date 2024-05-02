@@ -6,10 +6,10 @@
 
 @layer base {
   html {
-    @apply font-sans;
+    @apply font-sans bg-slate-200;
   }
-}
 
-:root {
-  @apply container mx-auto bg-slate-200 prose;
+  body {
+    @apply container mx-auto prose;
+  }
 }

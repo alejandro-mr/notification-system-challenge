@@ -28,6 +28,13 @@ export class UsersService {
       cursor,
       where,
       orderBy,
+      include: {
+        subscriptions: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
   }
 }

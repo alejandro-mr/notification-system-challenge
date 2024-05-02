@@ -1,10 +1,10 @@
 import { User, NotificationType } from '@prisma/client';
 
 export const USERS: { [key: string]: User } = {
-  jhon: {
+  john: {
     id: 1,
-    email: 'jhon@challenge.dev',
-    name: 'Jhon Doe',
+    email: 'john@challenge.dev',
+    name: 'John Doe',
     password: 'develop',
     phoneNumber: '124567890',
     channels: [NotificationType.EMAIL, NotificationType.PUSH],

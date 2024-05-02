@@ -24,9 +24,9 @@ function Notifications() {
     <>
       <h3>Notifications log</h3>
       <div className="overflow-x-auto">
-        <table className="table table-pin-rows table-pin-cols border-spacing-2">
+        <table className="table table-sm table-pin-rows table-pin-cols border-spacing-2">
           <thead>
-            <tr>
+            <tr className="bg-base-200">
               <th>User</th>
               <th>Channel</th>
               <th>Category</th>
@@ -35,11 +35,17 @@ function Notifications() {
             </tr>
           </thead>
           <tbody>
-            {log.map(({ user, notification, channel, sentAt }) => (
-              <tr className="bg-base-200 hover">
+            {log.map(({ id, user, notification, channel, sentAt }) => (
+              <tr className="bg-base-200 hover" key={id}>
                 <td>{user.email}</td>
-                <td>{channel}</td>
-                <td>{notification.category.category}</td>
+                <td>
+                  <span className="badge badge-primary">{channel}</span>
+                </td>
+                <td>
+                  <span className="badge badge-secondary">
+                    {notification.category.category}
+                  </span>
+                </td>
                 <td>{notification.message}</td>
                 <td>{new Date(sentAt).toString()}</td>
               </tr>

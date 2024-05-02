@@ -45,7 +45,7 @@ export class FinanceConsumer {
          */
 
         // Saving NotificationLog to record processed notification.
-        const log = await this.notificationLogService.createNotificationLog({
+        await this.notificationLogService.createNotificationLog({
           channel,
           user: {
             connect: {
@@ -59,8 +59,6 @@ export class FinanceConsumer {
           },
           sentAt: new Date().toISOString(),
         });
-
-        console.log(log);
       }
     }
   }
