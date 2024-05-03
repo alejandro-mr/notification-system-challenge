@@ -2,7 +2,7 @@
 
 The project consists of two applications:
 
-* Frontend: A react application bootstrapped with [Vite](https://vitejs.dev/) localized on the `/web` directory, using [Tailwind CSS](https://tailwindcss.com/) for styling.
+* Frontend: A react application bootstrapped with [Vite](https://vitejs.dev/) in the `/web` directory, using [Tailwind CSS](https://tailwindcss.com/) for styling.
 * Backend: Nodejs application in directory `/backend` built with [NestJS](https://nestjs.com/) framework, using [Prisma](https://www.prisma.io/orm) as ORM.
 
 Other resources:
